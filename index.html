@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谁能拯救芦柴棒？</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 音效文件 -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-sad-piano-and-strings-466.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound1">
+        <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound2">
+        <source src="https://www.soundjay.com/buttons/sounds/button-10.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound3">
+        <source src="https://www.soundjay.com/buttons/sounds/button-11.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound4">
+        <source src="https://www.soundjay.com/buttons/sounds/button-12.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="xiaoqinSound">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-gentle-piano-28.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="shuishengSound">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-calm-waters-144.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="liuhezhenSound">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-dramatic-piano-and-strings-216.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="huangxinSound">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-heroic-music-461.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="communistSound">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-epic-orchestra-with-triumphant-ending-124.mp3" type="audio/mpeg">
+    </audio>
+    
+    <style>
+        /* 自定义字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
+        
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Noto Serif SC", "Microsoft YaHei", serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 标题样式 */
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            color: #c12e2a;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            margin: 20px 0;
+            color: #8a1f1b;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            margin: 15px 0;
+            color: #8a1f1b;
+            font-size: 1.4em;
+        }
+        
+        /* 介绍部分样式 */
+        .intro {
+            background-color: #fff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .intro p {
+            font-size: 1.2em;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        /* 芦柴棒形象展示 */
+        .luchai-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 选项卡片样式 */
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .option-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .option-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .option-content {
+            padding: 20px;
+        }
+        
+        .option-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #c12e2a;
+        }
+        
+        .option-description {
+            font-size: 1em;
+            color: #666;
+        }
+        
+        /* 结果页面样式 */
+        .result {
+            display: none;
+            background-color: #fff;
+            padding: 40px;
+            margin: 50px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result.active {
+            display: block;
+        }
+        
+        .result-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .result-content {
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: justify;
+            padding: 0 20px;
+        }
+        
+        .result-content p {
+            text-indent: 2em;
+            margin-bottom: 1.2em;
+        }
+        
+        /* 文字逐一出现效果 */
+        .fade-in-text {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .fade-in-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 结论强调效果 */
+        .conclusion {
+            background-color: rgba(193, 46, 42, 0.1);
+            padding: 20px;
+            border-left: 5px solid #c12e2a;
+            margin: 40px 0;
+            font-weight: bold;
+            animation: highlight 2s ease-in-out infinite alternate;
+            text-indent: 0 !important;
+        }
+        
+        @keyframes highlight {
+            from { box-shadow: 0 0 5px rgba(193, 46, 42, 0.5); }
+            to { box-shadow: 0 0 20px rgba(193, 46, 42, 0.8); }
+        }
+        
+        /* 党徽展示效果 */
+        .communist-badge {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .communist-badge.active {
+            display: flex;
+            animation: fadeIn 1s ease;
+        }
+        
+        .badge-image {
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+        
+        .badge-text {
+            color: #fff;
+            font-size: 2.5em;
+            margin-top: 30px;
+            text-align: center;
+            animation: slideUp 1s ease 0.5s both;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            from { transform: scale(0.95); filter: brightness(0.8); }
+            to { transform: scale(1.05); filter: brightness(1.2); }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .continue-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #c12e2a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            animation: slideUp 1s ease 1s both;
+        }
+        
+        .continue-button:hover {
+            background-color: #8a1f1b;
+        }
+        
+        .result-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #c12e2a;
+            text-align: center;
+        }
+        
+        .back-button {
+            display: block;
+            width: 200px;
+            height: 50px;
+            margin: 30px auto;
+            background-color: #c12e2a;
+            color: #fff;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            background-color: #8a1f1b;
+        }
+        
+        /* 黄新特殊样式 */
+        .huangxin-result {
+            background: linear-gradient(to bottom, #f5f5f5, #e8f4f8);
+        }
+        
+        .huangxin-result .result-title {
+            color: #1a5276;
+        }
+        
+        .huangxin-result .result-content {
+            color: #1a5276;
+        }
+        
+        .huangxin-result .back-button {
+            background-color: #1a5276;
+        }
+        
+        .huangxin-result .back-button:hover {
+            background-color: #154360;
+        }
+        
+        /* 音乐播放提示按钮 */
+        #musicButton {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 9999;
+            font-size: 1.2em;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* 响应式设计（原样式保留，已适配多设备） */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            h3 {
+                font-size: 1.2em;
+            }
+            
+            .intro p {
+                font-size: 1em;
+            }
+            
+            .option-card {
+                margin: 10px;
+            }
+            
+            .result {
+                padding: 20px;
+            }
+            
+            .badge-text {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>谁能拯救芦柴棒？</h1>
+        
+        <div class="intro">
+            <p>在夏衍的报告文学《包身工》中，"芦柴棒"是一个十五六岁的包身工女孩，她手脚瘦得像芦柴梗一样，因此大家就拿"芦柴棒"当了她的名字。她每天在上海东洋纱厂工作12小时以上，居住在七尺阔十二尺深的工房里，与16-17人挤住在一起，人均不足0.6平方米。她的饮食只有两粥一饭（豆腐渣稀粥+烂菜叶），日薪仅三角八分（仅为普通工人的1/3）。她是被从苏北、浙东贫困农村诱骗出来的少女，签订了"包身契"，失去了人身自由。</p>
+            
+            <p>今天，我们将探讨一个问题：当"芦柴棒"向不同文学作品中的女性人物求救时，谁能够真正拯救她？</p>
+            
+            <!-- 替换：芦柴棒本地图片 lcb.jpg -->
+            <img src="lcb.jpg" alt="芦柴棒" class="luchai-image">
+        </div>
+        
+        <div class="options" id="options">
+            <div class="option-card" data-target="xiaoqin">
+                <!-- 替换：小芹本地图片 xq.jpg -->
+                <img src="xq.jpg" alt="小芹" class="option-image">
+                <div class="option-content">
+                    <h3 class="option-title">小芹（《小二黑结婚》）</h3>
+                    <p class="option-description">小芹是赵树理《小二黑结婚》中的农村女性形象，她美丽、善良、勤劳，与小二黑自由恋爱，反对封建包办婚姻。她具有朴素的善恶观，但缺乏正确的方法和领导。</p>
+                </div>
+            </div>
+            
+            <div class="option-card" data-target="shuisheng">
+                <!-- 替换：水生嫂本地图片 sss.jpg -->
+                <img src="sss.jpg" alt="水生嫂" class="option-image">
+                <div class="option-content">
+                    <h3 class="option-title">水生嫂（《荷花淀》）</h3>
+                    <p class="option-description">水生嫂是孙犁《荷花淀》中的女性形象，她从一位温柔善良的农村妇女成长为坚强的游击队员。前期的她有一腔热情但缺乏科学的行动指南；后期的她在战斗中成长，有了一定的革命经验。</p>
+                </div>
+            </div>
+            
+            <div class="option-card" data-target="liuhezhen">
+                <!-- 替换：刘和珍本地图片 lhz.jpg -->
+                <img src="lhz.jpg" alt="刘和珍" class="option-image">
+                <div class="option-content">
+                    <h3 class="option-title">刘和珍（《纪念刘和珍君》）</h3>
+                    <p class="option-description">刘和珍是鲁迅《纪念刘和珍君》中的女学生形象，她是北京女子师范大学的学生，具有坚定的信仰和爱国情怀，勇于反抗黑暗势力，但缺乏有力的组织和革命力量。</p>
+                </div>
+            </div>
+            
+            <div class="option-card" data-target="huangxin">
+                <!-- 替换：黄新本地图片 hx.jpg -->
+                <img src="hx.jpg" alt="黄新" class="option-image">
+                <div class="option-content">
+                    <h3 class="option-title">黄新（《党费》）</h3>
+                    <p class="option-description">黄新是王愿坚《党费》中的女共产党员形象，她纯洁无私，机智勇敢，对党和革命事业无限忠诚。在敌人的白色恐怖下，她始终保持着一个共产党员的坚定信念和对党的忠诚。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 结果页面 -->
+        <div class="result" id="xiaoqin-result">
+            <h2 class="result-title">小芹的回应</h2>
+            <!-- 替换：小芹结果页本地图片 xq.jpg -->
+            <img src="xq.jpg" alt="小芹" class="result-image">
+            <div class="result-content">
+                <p>小芹看着芦柴棒瘦骨嶙峋的样子，眼中充满了同情。她紧紧握住芦柴棒的手，说："闺女，你太可怜了。我能理解你的痛苦，因为我也曾经被封建势力压迫过。"</p>
+                <p>然而，当芦柴棒请求小芹帮助她逃离纱厂时，小芹却陷入了沉默。她知道，自己虽然在争取婚姻自由的斗争中取得了胜利，但那主要是依靠新政府的支持。面对包身工制度这样复杂的社会问题，她感到力不从心。</p>
+                <p>"我...我很想帮你，"小芹犹豫地说，"但是我没有钱，也没有门路。就算我能帮你逃出来，你又能去哪里呢？没有身份证明，没有谋生技能，你可能会饿死街头。"</p>
+                <p>小芹的善良和同情是真诚的，但她缺乏解决社会问题的正确方法和领导。她无法从根本上改变芦柴棒的命运，因为她自己也还在学习如何在新社会中生活。</p>
+                <p class="conclusion"><strong>结论：小芹不能拯救芦柴棒。</strong>虽然她有朴素的善恶观，对包身工有同情，但是缺乏正确的方法和领导，也无法解决救出芦柴棒后她的生存问题。</p>
+            </div>
+            <a href="#" class="back-button">返回选择</a>
+        </div>
+        
+        <div class="result" id="shuisheng-result">
+            <h2 class="result-title">水生嫂的回应</h2>
+            <!-- 替换：水生嫂结果页本地图片 sss.jpg -->
+            <img src="sss.jpg" alt="水生嫂" class="result-image">
+            <div class="result-content">
+                <p>水生嫂上下打量着芦柴棒，她的眼神中既有同情，也有审视。作为经历过战争洗礼的妇女，她已经不再是当年那个只会在家织席的普通农妇了。</p>
+                <p>"闺女，你受的苦我能明白，"水生嫂说，"但是要逃出这个魔窟，不是一件简单的事。你有什么打算吗？"</p>
+                <p>芦柴棒摇了摇头，她只知道自己不想再过这种非人的生活，但根本不知道该如何改变。</p>
+                <p>水生嫂思考了一会儿，说："如果你真的想逃，我可以试着联系一些可靠的乡亲，帮你找个落脚的地方。但是，这只能救你一个人。要想救更多像你这样的姐妹，必须从根本上推翻这个吃人的制度。"</p>
+                <p>水生嫂的话让芦柴棒似懂非懂。她知道水生嫂是真心想帮她，但她不确定这条路是否真的能走通。</p>
+                <p class="conclusion"><strong>结论：水生嫂不一定能拯救芦柴棒。</strong>前期的水生嫂是农民，有一腔热情但是缺乏科学的行动指南；后期的水生嫂成长为游击队员，可能在乡亲的帮助下救出芦柴棒，但是无法拯救千万个包身工。</p>
+            </div>
+            <a href="#" class="back-button">返回选择</a>
+        </div>
+        
+        <div class="result" id="liuhezhen-result">
+            <h2 class="result-title">刘和珍的回应</h2>
+            <!-- 替换：刘和珍结果页本地图片 lhz.jpg -->
+            <img src="lhz.jpg" alt="刘和珍" class="result-image">
+            <div class="result-content">
+                <p>刘和珍看着芦柴棒，眼中燃起了愤怒的火焰。她握紧拳头，说："这是何等的黑暗！资本家和封建势力勾结在一起，肆意践踏底层人民的尊严和生命！"</p>
+                <p>她当即表示要为芦柴棒奔走呼号，联系进步学生和爱国人士，揭露包身工制度的罪恶。然而，在那个军阀混战、白色恐怖笼罩的年代，她的呐喊虽然能唤起一部分人的觉醒，却无法撼动反动势力的根基。</p>
+                <p>"我会尽我所能帮助你，"刘和珍坚定地说，"但单凭我们的一腔热血，恐怕难以彻底改变这一切。我们需要更强大的力量，需要组织，需要千千万万被压迫者的团结！"</p>
+                <p class="conclusion"><strong>结论：刘和珍不能拯救芦柴棒。</strong>她有坚定的信仰和反抗精神，能揭露黑暗却缺乏有力的组织和革命力量，无法从根本上推翻包身工制度。</p>
+            </div>
+            <a href="#" class="back-button">返回选择</a>
+        </div>
+
+        <!-- 补充黄新结果页（完整） -->
+        <div class="result huangxin-result" id="huangxin-result">
+            <h2 class="result-title">黄新的回应</h2>
+            <!-- 替换：黄新结果页本地图片 hx.jpg -->
+            <img src="hx.jpg" alt="黄新" class="result-image">
+            <div class="result-content">
+                <p>黄新仔细听完芦柴棒的哭诉，没有过多的同情之语，而是冷静地分析道："你的苦难不是个人的不幸，而是整个旧中国底层妇女的缩影。要摆脱这种命运，不能只靠个人的逃离，必须推翻这个吃人的制度！"</p>
+                <p>她告诉芦柴棒，自己所在的党组织正在秘密发动工人运动，号召包身工们团结起来反抗压迫。她给芦柴棒讲革命的道理，教她如何联系身边的姐妹，如何保存力量，等待时机。</p>
+                <p>"我不能只救你一个人，"黄新说，"我们要救的是所有像你一样被压迫的姐妹。党会指引我们方向，组织会给我们力量。只要我们跟着党走，团结起来，就一定能砸碎这万恶的包身工制度！"</p>
+                <p class="conclusion"><strong>结论：只有黄新能真正拯救芦柴棒。</strong>她作为共产党员，有坚定的信仰、科学的方法和组织的力量，不仅能解救个体，更能从根本上推翻压迫制度，拯救千万个"芦柴棒"。</p>
+            </div>
+            <a href="#" class="back-button">返回选择</a>
+        </div>
+
+        <!-- 党徽弹窗（补充完整） -->
+        <div class="communist-badge" id="communistBadge">
+            <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/88e66b0df2a1440185d0f2c3d95c3135~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260407225628F59CB5F827BBA77CFE08&rrcfp=f06b921b&x-expires=1778165803&x-signature=6IQZ%2FigmGUCJNIyI%2F0SzH4GubE0%3D" alt="党徽" class="badge-image">
+            <div class="badge-text">只有中国共产党才能拯救千万个“芦柴棒”</div>
+            <button class="continue-button" id="continueBtn">继续</button>
+        </div>
+
+        <!-- 音乐播放按钮（补充完整） -->
+        <div id="musicButton">
+            <i class="fas fa-music"></i> 点击播放背景音乐
+        </div>
+    </div>
+
+    <script>
+        // 简单的交互逻辑（保留基础功能，不影响样式）
+        document.addEventListener('DOMContentLoaded', function() {
+            // 音乐播放逻辑
+            const musicButton = document.getElementById('musicButton');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            
+            musicButton.addEventListener('click', function() {
+                backgroundMusic.play();
+                musicButton.style.display = 'none';
+            });
+
+            // 选项卡片点击逻辑
+            const optionCards = document.querySelectorAll('.option-card');
+            const results = document.querySelectorAll('.result');
+            const backButtons = document.querySelectorAll('.back-button');
+            const communistBadge = document.getElementById('communistBadge');
+            const continueBtn = document.getElementById('continueBtn');
+
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 播放点击音效
+                    const clickSounds = [
+                        document.getElementById('clickSound1'),
+                        document.getElementById('clickSound2'),
+                        document.getElementById('clickSound3'),
+                        document.getElementById('clickSound4')
+                    ];
+                    const randomSound = clickSounds[Math.floor(Math.random() * clickSounds.length)];
+                    randomSound.play();
+
+                    // 隐藏所有结果
+                    results.forEach(result => result.classList.remove('active'));
+                    
+                    // 显示对应结果
+                    const target = this.dataset.target;
+                    const targetResult = document.getElementById(`${target}-result`);
+                    targetResult.classList.add('active');
+
+                    // 播放对应音效
+                    const sound = document.getElementById(`${target}Sound`);
+                    if (sound) sound.play();
+
+                    // 黄新结果页触发党徽弹窗
+                    if (target === 'huangxin') {
+                        setTimeout(() => {
+                            communistBadge.classList.add('active');
+                            document.getElementById('communistSound').play();
+                        }, 5000);
+                    }
+                });
+            });
+
+            // 返回按钮逻辑
+            backButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    results.forEach(result => result.classList.remove('active'));
+                    communistBadge.classList.remove('active');
+                });
+            });
+
+            // 党徽弹窗继续按钮
+            continueBtn.addEventListener('click', function() {
+                communistBadge.classList.remove('active');
+            });
+
+            // 文字渐入效果
+            const fadeTexts = document.querySelectorAll('.fade-in-text');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeTexts.forEach(text => observer.observe(text));
+        });
+    </script>
+</body>
+</html>
